@@ -7,7 +7,7 @@
 #include "game.h" 
 
 	void Game::init() {
-		std::ifstream file("save.txt", std::ios::in | std::ios::ate);
+		std::ifstream file("./Game/save.txt", std::ios::in | std::ios::ate);
 		if (file.is_open())
 		{
 			if (file.tellg() == 0) {
@@ -88,7 +88,7 @@
 
 		//Saving game
 
-		std::ofstream file("save.txt", std::ios::out | std::ios::trunc);
+		std::ofstream file("./Game/save.txt", std::ios::out | std::ios::trunc);
 		if (file.is_open())
 		{
 			file << current_year << " " 
@@ -101,7 +101,7 @@
 				 << rats_eaten_wheat << " "
 				 << new_people << " "
 				 << is_plague << " "
-				 << acre_price << "  ";
+				 << acre_price << " ";
 			for (int i = 0; i < current_year - 1; ++i) {
 				file << dead_percent[i] << " ";
 			}
