@@ -25,18 +25,51 @@ class Array final {
 
         int size() const;
     
+        class Iterator;
+        class ConstIterator;
+        
+        Iterator iterator() { return Iterator(data_); };
+        ConstIterator iterator() const { return ConstIterator(data_); };
+
+        Iterator reverseIterator() { return Iterator(data_ + size_ - 1, true); };
+        ConstIterator reverseIterator() const { return ConstIterator(data_ + size_ - 1, true); };
+
+    private:
+        int size_;
+        int capacity_;
+        T* data_;
+        void swap_(Array other);
+    
+    public:
         class Iterator {
             public:
-                Iterator()
-                {
-                    ptr_ = nullptr;
-                }
-                const T& get() const;
-                void set(const T& value);
-                void next();
-                bool hasNext() const;
+                Iterator(T* data = nullptr, int size = 0, bool rev = false) : size_(size), reverse_(rev) {
+                    if (rev) {
+                        cur_ = data + size - 1;
+                        end_ = data;
+                    }
+                    else {
+                        cur_ = data;
+                        end_ = data + size;
+                    }
+                };
+                const T& get() const {
+                    return *cur_;
+                };
+                void set(const T& value) {
+                    *cur_ = value;
+                };
+                void next() {
+                    reverse_? --cur_ : ++cur_;
+                };
+                bool hasNext() const {
+                
+                };
             private:
-                T* ptr_;
+                T* cur_;
+                T* end_;
+                int size_;
+                bool reverse_;
         };
 
         class ConstIterator {
@@ -51,19 +84,6 @@ class Array final {
             private:
                 T* ptr_;
         };
-
-        
-        Iterator iterator() {return iterator();};
-        ConstIterator iterator() const;
-
-        Iterator reverseIterator();
-        ConstIterator reverseIterator() const;
-
-    private:
-        int size_;
-        int capacity_;
-        T* data_;
-        void swap_(Array other);
         
 };
 
@@ -168,4 +188,5 @@ class Array final {
         std::swap(other.capacity_);
         std::swap(other.data_);
     }
+
 
